@@ -1,0 +1,103 @@
+/**All fields must be private. No fields may be static.
+
+ * David House
+ * IS 247 
+ * This program displays the last number of a sequence, the sum of the sequence
+ * and the mean of the sequence*/
+import java.util.Scanner;
+import java.io.*;
+
+public class StatsBuddy
+{
+	
+	private int count;
+	private double number;
+	private double sum;
+	private double mean;
+	
+	public void nextNumber(File value) throws IOException
+	{
+		Scanner scan = new Scanner(value);
+		
+		while(scan.hasNextDouble())
+		{
+			number = scan.nextDouble();
+			count++;
+			sum += number;
+		}
+		mean = sum / count;
+		scan.close();
+	}
+	
+	static StatsBuddy add(StatsBuddy a, StatsBuddy b)
+	{
+		StatsBuddy c = new StatsBuddy();
+		c.number = a.number;
+		c.sum = a.sum + b.sum;
+		c.count = a.count + b.count;
+		c.mean = c.sum / c.count;
+		return c;
+	}
+	
+	private static void display(StatsBuddy s)
+	{
+		System.out.println("the number of Items in the document: " + s.count);
+		System.out.println("The last Number Entered: " + s.number);
+		System.out.println("The sum of the document: " + s.sum);
+		System.out.println("The mean of the document: " + s.mean + "\n");
+		
+	}
+
+	public static void main(String[] args)
+	{
+		StatsBuddy s1 = new StatsBuddy();
+		StatsBuddy s2 = new StatsBuddy();
+		File f1 = new File("s1.txt");
+		File f2 = new File("s2.txt"); 
+		
+		try 
+		{
+			s1.nextNumber(f1);
+		} catch (IOException e) 
+		{
+			
+			e.printStackTrace();
+		}
+		try 
+		{
+			s2.nextNumber(f2);
+		} catch (IOException e) 
+		{
+			
+			e.printStackTrace();
+		}
+		System.out.println("Document 1: \n");
+		display(s1);
+		System.out.println("Document 2: \n");
+		display(s2);
+		System.out.println("Both Documents: \n");
+		display(add(s1, s2));
+	}
+	
+	public int sequenceLength(StatsBuddy a)
+	{
+		return count;
+	}
+	
+	public double lastNumber(StatsBuddy a)
+	{
+		return number;
+	}
+	
+	public double sequenceSum(StatsBuddy a)
+	{
+		return sum;
+	}
+	
+	public double sequenceMean(StatsBuddy a)
+	{
+		return mean;
+	}
+	
+}
+
